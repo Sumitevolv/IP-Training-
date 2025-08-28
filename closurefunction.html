@@ -1,0 +1,50 @@
+function Person(name, age) {
+    // Private variables
+    let _name = name;
+    let _age = age;
+
+    // Public method to get the name
+    this.getName = function() {
+        return _name;
+    };
+
+    // Public method to set the name
+    this.setName = function(newName) {
+        _name = newName;
+    };
+
+    // Getter for age
+    this.getAge = function() {
+        return _age;
+    };
+
+    // Setter for age
+    this.setAge = function(newAge) {
+        if (newAge > 0) {
+            _age = newAge;
+        } else {
+            console.log('Age must be a positive number.');
+        }
+    };
+
+    // Public method to describe the person
+    this.describe = function() {
+        return `${_name} is ${_age} years old.`;
+    };
+}
+
+// Example usage
+const person1 = new Person('John', 30);
+
+// Accessing the public getter and setter methods
+console.log(person1.getAge());  // 30
+person1.setAge(35);
+console.log(person1.getAge());  // 35
+
+// Accessing the public getter for name
+console.log(person1.getName());  // John
+person1.setName('Alice');
+console.log(person1.getName());  // Alice
+
+// Describing the person
+console.log(person1.describe());  // Alice is 35 years old.

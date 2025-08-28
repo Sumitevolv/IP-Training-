@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map with User Input</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Set the size of the map */
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        /* Set the height of the body and html to ensure the map fills the screen */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .input-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 999;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <input type="text" id="city" placeholder="Enter city name" />
+        <button onclick="updateMap()">Update Map</button>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Base class for managing maps (OpenStreetMap with Leaflet.js)
+        class Map {
+            constructor() {
+                this.map = null;  // Store the map instance
+                this.tileLayer = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";  // Default OpenStreetMap tile layer URL
+            }
+
+            // Function to initialize the map with given latitude and longitude
+            initMap(latitude, longitude, zoom = 13) {
+                this.map = L.map('map').setView([latitude, longitude], zoom);
+                L.tileLayer(this.tileLayer).addTo(this.map);
+                this.addMarker(latitude, longitude);
+            }
+
+            // Function to add a marker at the specified coordinates
+            addMarker(latitude, longitude) {
+                L.marker([latitude, longitude]).addTo(this.map)
+                    .bindPopup("This is a marker.")
+                    .openPopup();
+            }
+        }
+
+        // Inherited class with custom configurations for the map
+        class DevConfigMap extends Map {
+            constructor(config) {
+                super();  // Calling the parent constructor (Map)
+                this.config = config;  // Custom configuration object
+                this.tileLayer = this.config.tileLayer || this.tileLayer;  // Allow custom tile layer if provided
+            }
+
+            // Override initMap to include custom configurations (if needed)
+            initMap(latitude, longitude, zoom = 13) {
+                // Call the parent initMap method to initialize the map
+                super.initMap(latitude, longitude, zoom);
+                
+                // You can add other custom logic here (e.g., custom zoom levels, controls)
+                console.log("Map initialized with custom configuration:", this.config);
+            }
+        }
+
+        // Function to fetch coordinates based on city name using OpenCage Geocoding API
+        function fetchCoordinates(city) {
+            const apiKey = "YOUR_OPENCAGE_API_KEY";  // Replace with your actual OpenCage API key
+
+            // Use a CORS proxy for development if necessary
+            const apiUrl = `https://cors-anywhere.herokuapp.com/https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=${apiKey}`;
+
+            return fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.results.length > 0) {
+                        const location = data.results[0].geometry;
+                        return {
+                            latitude: location.lat,
+                            longitude: location.lng
+                        };
+                    } else {
+                        throw new Error("City not found");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching coordinates:", error);
+                    alert("Error fetching location. Please try again.");
+                    return null;
+                });
+        }
+
+        // Function to update the map based on user input
+        function updateMap() {
+            const city = document.getElementById('city').value;
+            if (!city) {
+                alert("Please enter a city name.");
+                return;
+            }
+
+            fetchCoordinates(city).then(coordinates => {
+                if (coordinates) {
+                    const devMap = new DevConfigMap({});
+                    devMap.initMap(coordinates.latitude, coordinates.longitude, 12);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

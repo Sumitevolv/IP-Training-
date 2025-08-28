@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        
+        .age-verification {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="age-verification" id="verification-form">
+        <h1>Age Verification</h1>
+        <p>Please enter your age to continue:</p>
+        
+        <div class="form-group">
+            <label for="age">Your Age:</label>
+            <input type="number" id="age" min="0" max="120" placeholder="Enter your age">
+        </div>
+        
+        <button onclick="verifyAge()">Submit</button>
+    </div>
+
+    <script>
+        function verifyAge() {
+            const age = parseInt(document.getElementById('age').value);
+            
+            if (isNaN(age)) {
+                alert("Please enter a valid age");
+                return;
+            }
+            
+            if (age >= 18) {
+                // Redirect to YouTube for adults
+                window.location.href = "https://www.youtube.com";
+            } else {
+                alert("Sorry, you must be 18 or older to continue.");
+            }
+        }
+    </script>
+</body>
+</html>

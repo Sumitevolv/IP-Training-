@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class and Object with Console</title>
+    <script>
+        // Defining a class in JavaScript
+        class Person {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            greet() {
+                return `Hello, my name is ${this.name} and I am ${this.age} years old.`;
+            }
+        }
+
+        // Creating an object of the class Person
+        const person1 = new Person("Bob", 25);
+
+        // Using console.log() to display object properties and methods
+        console.log(person1); // Logs the object itself
+        console.log(person1.greet()); // Logs the result of the greet method
+        console.log(`Name: ${person1.name}, Age: ${person1.age}`); // Logs individual properties
+    </script>
+</head>
+<body>
+    <h1>Check the Developer Console</h1>
+    <p>Open your browser's developer tools to see the output.</p>
+</body>
+</html>

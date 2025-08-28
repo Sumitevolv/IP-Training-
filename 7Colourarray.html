@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7 Color Array</title>
+  <style>
+    .color-array {
+      display: flex;
+    }
+    .color-box {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="color-array" class="color-array"></div>
+
+  <script>
+  
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
+    
+    const colorArrayContainer = document.getElementById('color-array');
+
+   
+    colors.forEach(color => {
+
+      const colorBox = document.createElement('div');
+      
+      
+      colorBox.style.backgroundColor = color;
+      
+      
+      colorBox.classList.add('color-box');
+      
+      
+      colorArrayContainer.appendChild(colorBox);
+    });
+  </script>
+
+</body>
+</html>

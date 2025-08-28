@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    .form-container {
+      margin: 20px auto;
+      width: 300px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container input, .form-container select, .form-container button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .employee-list {
+      margin-top: 30px;
+    }
+
+    .employee {
+      background-color: #fff;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .employee h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .transaction-list {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+
+    .transaction {
+      background-color: #f7f7f7;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .transaction span {
+      font-weight: bold;
+    }
+
+    .transaction button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .transaction button:hover {
+      background-color: #e53935;
+    }
+
+    .clear-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .clear-btn:hover {
+      background-color: #45a049;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Employee Management System</h1>
+
+  <div class="form-container">
+    <h3>Add Employee</h3>
+    <input type="text" id="employeeName" placeholder="Employee Name">
+    <input type="text" id="employeePosition" placeholder="Employee Position">
+    <input type="number" id="employeeSalary" placeholder="Salary">
+    <button onclick="addEmployee()">Add Employee</button>
+  </div>
+
+  <div class="form-container">
+    <h3>Add Transaction</h3>
+    <select id="employeeSelect">
+      <option value="">Select Employee</option>
+    </select>
+    <input type="text" id="transactionDescription" placeholder="Transaction Description">
+    <input type="number" id="transactionAmount" placeholder="Amount">
+    <input type="date" id="transactionDate">
+    <button onclick="addTransaction()">Add Transaction</button>
+  </div>
+
+  <div class="employee-list" id="employeeList">
+    <!-- Employee details and transactions will appear here -->
+  </div>
+
+  <button class="clear-btn" onclick="clearAll()">Clear All Data</button>
+
+  <script>
+    let employees = [];
+    let employeeIdCounter = 1;
+
+    function addEmployee() {
+      const name = document.getElementById('employeeName').value;
+      const position = document.getElementById('employeePosition').value;
+      const salary = parseFloat(document.getElementById('employeeSalary').value);
+
+      if (!name || !position || isNaN(salary)) {
+        alert("Please fill in all employee details!");
+        return;
+      }
+
+      const newEmployee = {
+        id: employeeIdCounter++,
+        name,
+        position,
+        salary,
+        transactions: [],
+      };
+
+      employees.push(newEmployee);
+      updateEmployeeList();
+      updateEmployeeSelect();
+      
+      // Clear input fields
+      document.getElementById('employeeName').value = '';
+      document.getElementById('employeePosition').value = '';
+      document.getElementById('employeeSalary').value = '';
+    }
+
+    function addTransaction() {
+      const employeeId = parseInt(document.getElementById('employeeSelect').value);
+      const description = document.getElementById('transactionDescription').value;
+      const amount = parseFloat(document.getElementById('transactionAmount').value);
+      const date = document.getElementById('transactionDate').value;
+
+      if (!employeeId || !description || isNaN(amount) || !date) {
+        alert("Please fill in all transaction details!");
+        return;
+      }
+
+      const employee = employees.find(emp => emp.id === employeeId);
+      const newTransaction = {
+        id: employee.transactions.length + 1,
+        description,
+        amount,
+        date,
+      };
+
+      employee.transactions.push(newTransaction);
+      updateEmployeeList();
+
+      // Clear transaction fields
+      document.getElementById('transactionDescription').value = '';
+      document.getElementById('transactionAmount').value = '';
+      document.getElementById('transactionDate').value = '';
+    }
+
+    function updateEmployeeList() {
+      const employeeListDiv = document.getElementById('employeeList');
+      employeeListDiv.innerHTML = '';
+
+      employees.forEach(employee => {
+        const employeeDiv = document.createElement('div');
+        employeeDiv.classList.add('employee');
+
+        employeeDiv.innerHTML = `
+          <h3>${employee.name} (${employee.position})</h3>
+          <p>Salary: $${employee.salary.toFixed(2)}</p>
+          <div class="transaction-list">
+            <h4>Transactions:</h4>
+        `;
+
+        employee.transactions.forEach(transaction => {
+          employeeDiv.innerHTML += `
+            <div class="transaction">
+              <span>${transaction.description}</span> | $${transaction.amount.toFixed(2)} | ${transaction.date}
+              <button onclick="removeTransaction(${employee.id}, ${transaction.id})">Remove</button>
+            </div>
+          `;
+        });
+
+        employeeDiv.innerHTML += '</div>';
+        employeeListDiv.appendChild(employeeDiv);
+      });
+    }
+
+    function removeTransaction(employeeId, transactionId) {
+      const employee = employees.find(emp => emp.id === employeeId);
+      const transactionIndex = employee.transactions.findIndex(trans => trans.id === transactionId);
+
+      if (transactionIndex !== -1) {
+        employee.transactions.splice(transactionIndex, 1);
+        updateEmployeeList();
+      }
+    }
+
+    function updateEmployeeSelect() {
+      const employeeSelect = document.getElementById('employeeSelect');
+      employeeSelect.innerHTML = '<option value="">Select Employee</option>';
+
+      employees.forEach(employee => {
+        const option = document.createElement('option');
+        option.value = employee.id;
+        option.textContent = `${employee.name} (${employee.position})`;
+        employeeSelect.appendChild(option);
+      });
+    }
+
+    function clearAll() {
+      employees = [];
+      updateEmployeeList();
+      updateEmployeeSelect();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Screener</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="resume.css">
+    <style>
+        /* Spinner animation (if not provided in resume.css) */
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-6 py-4 bg-blue-600 text-white">
+                <h1 class="text-2xl font-bold">AI Resume Screening Tool</h1>
+                <p class="text-sm">Intelligent resume matching and analysis</p>
+            </div>
+
+            <div class="md:flex">
+                <div class="md:w-1/2 p-6">
+                    <div id="drop-area" class="border-4 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition">
+                        <input type="file" id="file-input" accept=".pdf,.docx,.txt" class="hidden">
+                        <div class="text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="mt-2 text-sm text-gray-600">Drag and drop resume or click to upload</p>
+                            <p class="text-xs text-gray-500">Supported formats: PDF, DOCX, TXT</p>
+                        </div>
+                    </div>
+
+                    <div id="file-info" class="mt-4 hidden">
+                        <p class="text-sm">File: <span id="file-name" class="font-bold"></span></p>
+                    </div>
+
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700">Job Requirements</label>
+                        <textarea id="job-description" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200" placeholder="Enter job description and key skills..."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Min Experience</label>
+                            <input type="number" id="experience" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200" placeholder="Years">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Education</label>
+                            <input type="text" id="education" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200" placeholder="Degree">
+                        </div>
+                    </div>
+
+                    <button id="analyze-btn" class="w-full mt-6 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+                        Analyze Resume
+                    </button>
+                </div>
+
+                <div class="md:w-1/2 p-6 bg-gray-50">
+                    <div id="results-container" class="hidden">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Screening Results</h2>
+
+                        <div class="bg-white shadow rounded-lg p-4 mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-600">Overall Match</span>
+                                <span id="match-percentage" class="text-lg font-bold text-blue-600">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="match-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div id="skill-matches" class="bg-white shadow rounded-lg p-4 mb-4">
+                            <h3 class="text-md font-semibold mb-2 text-gray-700">Skill Matches</h3>
+                            <div id="matched-skills"></div>
+                        </div>
+
+                        <div id="experience-section" class="bg-white shadow rounded-lg p-4 mb-4">
+                            <h3 class="text-md font-semibold mb-2 text-gray-700">Experience Analysis</h3>
+                            <p id="experience-result" class="text-sm text-gray-600"></p>
+                        </div>
+
+                        <div id="recommendations" class="bg-white shadow rounded-lg p-4">
+                            <h3 class="text-md font-semibold mb-2 text-gray-700">Improvement Suggestions</h3>
+                            <ul id="suggest-list" class="list-disc list-inside text-sm text-gray-600"></ul>
+                        </div>
+                    </div>
+
+                    <div id="loading" class="hidden text-center">
+                        <div class="spinner"></div>
+                        <p class="mt-2 text-gray-600">Analyzing resume...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="resume.js"></script>
+</body>
+
+</html>

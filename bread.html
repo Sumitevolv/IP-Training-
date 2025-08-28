@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandwich Maker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin: 0 auto;
+            width: 50%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Make Your Sandwich!</h1>
+        <button class="button" onclick="makeSandwich()">Make Sandwich</button>
+        <p class="message" id="message"></p>
+    </div>
+
+    <script>
+        // Define the SandwichMaker prototype with functions to take bread, butter, and veggies
+        function SandwichMaker() {
+            this.bread = false;
+            this.butter = false;
+            this.veggies = false;
+        }
+
+        // Function to take bread
+        SandwichMaker.prototype.takeBread = function() {
+            this.bread = true;
+            console.log("Bread is ready!");
+        };
+
+        // Function to take butter
+        SandwichMaker.prototype.takeButter = function() {
+            this.butter = true;
+            console.log("Butter is ready!");
+        };
+
+        // Function to take veggies
+        SandwichMaker.prototype.takeVeggies = function() {
+            this.veggies = true;
+            console.log("Veggies are ready!");
+        };
+
+        // Final function to make the sandwich by combining all steps
+        SandwichMaker.prototype.makeSandwich = function() {
+            if (this.bread && this.butter && this.veggies) {
+                document.getElementById('message').innerText = "Sandwich is ready! Enjoy your sandwich!";
+                console.log("Sandwich is ready!");
+            } else {
+                document.getElementById('message').innerText = "You need to take bread, butter, and veggies first.";
+                console.log("Incomplete sandwich. Please add all ingredients.");
+            }
+        };
+
+        // Create an instance of SandwichMaker
+        const sandwich = new SandwichMaker();
+
+        // Add event listener to make sandwich
+        function makeSandwich() {
+            sandwich.takeBread();   // First, take bread
+            sandwich.takeButter();  // Then, take butter
+            sandwich.takeVeggies(); // Then, take veggies
+            sandwich.makeSandwich(); // Finally, make the sandwich
+        }
+    </script>
+</body>
+</html>

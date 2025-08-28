@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f7f7f7;
+      padding: 20px;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    label {
+      font-size: 14px;
+      margin-bottom: 8px;
+      display: block;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: #4CAF50;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      padding: 12px;
+      width: 48%;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      transition: background-color 0.3s;
+    }
+    button.calculate {
+      background-color: #4CAF50;
+      color: white;
+    }
+    button.reset {
+      background-color: #f44336;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 15px;
+      border-radius: 6px;
+    }
+    .underweight {
+      background-color: #ffcc00;
+      color: #333;
+    }
+    .normal {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .overweight {
+      background-color: #ff9800;
+      color: white;
+    }
+    .obese {
+      background-color: #f44336;
+      color: white;
+    }
+    .info-text {
+      font-size: 14px;
+      text-align: center;
+      color: #666;
+      margin-top: 10px;
+    }
+    .info-text a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>BMI Calculator</h1>
+
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" placeholder="Enter your weight" required>
+
+    <label for="height">Height (m):</label>
+    <input type="number" id="height" step="0.01" placeholder="Enter your height" required>
+
+    <div class="buttons">
+      <button class="calculate" onclick="calculateBMI()">Calculate BMI</button>
+      <button class="reset" onclick="resetFields()">Reset</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="info-text">
+      <p>Not sure what BMI means? <a href="https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html" target="_blank">Learn more</a></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateBMI() {
+      const weight = document.getElementById('weight').value;
+      const height = document.getElementById('height').value;
+      const resultDiv = document.getElementById('result');
+
+      if (weight && height && weight > 0 && height > 0) {
+        const bmi = weight / (height * height);
+        let resultText = `Your BMI is ${bmi.toFixed(2)}. `;
+        let bmiCategory = '';
+        let resultClass = '';
+
+        if (bmi < 18.5) {
+          bmiCategory = 'Underweight';
+          resultClass = 'underweight';
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+          bmiCategory = 'Normal weight';
+          resultClass = 'normal';
+        } else if (bmi >= 25 && bmi < 29.9) {
+          bmiCategory = 'Overweight';
+          resultClass = 'overweight';
+        } else {
+          bmiCategory = 'Obese';
+          resultClass = 'obese';
+        }
+
+        resultText += `You are ${bmiCategory}.`;
+        resultDiv.textContent = resultText;
+        resultDiv.className = `result ${resultClass}`;
+      } else {
+        resultDiv.textContent = 'Please enter valid weight and height.';
+        resultDiv.className = 'result';
+      }
+    }
+
+    function resetFields() {
+      document.getElementById('weight').value = '';
+      document.getElementById('height').value = '';
+      document.getElementById('result').textContent = '';
+    }
+  </script>
+
+</body>
+</html>

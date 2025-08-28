@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble Game</title>
+</head>
+<body>
+
+    <h2>Word Scramble Game</h2>
+    <p id="scrambledWord"></p>
+    <input type="text" id="userGuess" placeholder="Your Guess">
+    <button onclick="checkGuess()">Submit</button>
+    <p id="feedback"></p>
+
+    <script>
+        const words = ["apple", "banana", "grape", "orange"];
+        const word = words[Math.floor(Math.random() * words.length)];
+        const scrambled = word.split('').sort(() => 0.5 - Math.random()).join('');
+        
+        document.getElementById('scrambledWord').innerText = `Scrambled Word: ${scrambled}`;
+
+        function checkGuess() {
+            const guess = document.getElementById('userGuess').value.toLowerCase();
+            const feedback = document.getElementById('feedback');
+            feedback.innerText = guess === word ? "Correct!" : "Try Again!";
+            feedback.style.color = guess === word ? "green" : "red";
+        }
+    </script>
+
+</body>
+</html>

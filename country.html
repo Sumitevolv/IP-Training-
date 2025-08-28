@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Flag Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        #flag {
+            margin-top: 20px;
+            display: none;
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #message {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Search for a Country Flag</h1>
+    <input type="text" id="countryInput" placeholder="Enter country name..." />
+    <button onclick="searchFlag()">Search Flag</button>
+
+    <div id="message"></div>
+    <img id="flag" src="" alt="Country Flag" />
+
+    <script>
+        async function searchFlag() {
+            const countryName = document.getElementById("countryInput").value.trim();
+            const flagImg = document.getElementById("flag");
+            const message = document.getElementById("message");
+
+            if (countryName === "") {
+                message.textContent = "Please enter a country name.";
+                flagImg.style.display = "none";
+                return;
+            }
+
+            // Fetch country data from the Restcountries API
+            try {
+                const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    const flagUrl = data[0].flags.png; // Get the flag URL (PNG)
+                    flagImg.src = flagUrl;
+                    flagImg.style.display = "block";
+                    message.textContent = "";
+                } else {
+                    throw new Error("Country not found");
+                }
+            } catch (error) {
+                message.textContent = "Flag not found! Please enter a valid country name.";
+                flagImg.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>

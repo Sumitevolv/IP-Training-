@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Word Counter</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        textarea {
+            padding: 10px;
+            width: 100%;
+            resize: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .counter {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #wordFrequency {
+            margin-top: 20px;
+            text-align: left;
+            padding-left: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .reset-btn {
+            background-color: #f44336;
+            margin-top: 10px;
+        }
+
+        .reset-btn:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Word Counter</h1>
+
+        <!-- Textarea to input text -->
+        <textarea id="textInput" placeholder="Type or paste your text here..." rows="6" cols="50"></textarea>
+
+        <div id="wordCountMessage" class="counter">Word Count: <span id="wordCount">0</span></div>
+        <div id="charCountMessage" class="counter">Character Count: <span id="charCount">0</span></div>
+        <div id="sentenceCountMessage" class="counter">Sentence Count: <span id="sentenceCount">0</span></div>
+
+        <button id="submitText">Submit Text</button>
+        <button class="reset-btn" id="resetText">Reset</button>
+
+        <div id="wordFrequency"></div>
+    </div>
+
+    <script>
+        // Function to calculate word count
+        function updateWordCount() {
+            const text = document.getElementById("textInput").value;
+            const words = text.trim().split(/\s+/).filter(Boolean);
+            const wordCount = words.length;
+            document.getElementById("wordCount").textContent = wordCount;
+        }
+
+        // Function to calculate character count
+        function updateCharCount() {
+            const text = document.getElementById("textInput").value;
+            const charCount = text.length;
+            document.getElementById("charCount").textContent = charCount;
+        }
+
+        // Function to calculate sentence count
+        function updateSentenceCount() {
+            const text = document.getElementById("textInput").value;
+            const sentences = text.trim().split(/[.!?]+/).filter(Boolean);
+            const sentenceCount = sentences.length;
+            document.getElementById("sentenceCount").textContent = sentenceCount;
+        }
+
+        // Function to update word frequency
+        function updateWordFrequency() {
+            const text = document.getElementById("textInput").value.trim().toLowerCase();
+            const words = text.split(/\s+/).filter(Boolean);
+
+            const wordFrequency = {};
+            words.forEach(word => {
+                wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+            });
+
+            // Display word frequency
+            const wordFreqDiv = document.getElementById("wordFrequency");
+            wordFreqDiv.innerHTML = '<strong>Word Frequency:</strong>';
+            for (const word in wordFrequency) {
+                wordFreqDiv.innerHTML += `<div>${word}: ${wordFrequency[word]}</div>`;
+            }
+        }
+
+        // Function to reset the input field and all counters
+        function resetCounters() {
+            document.getElementById("textInput").value = "";
+            document.getElementById("wordCount").textContent = "0";
+            document.getElementById("charCount").textContent = "0";
+            document.getElementById("sentenceCount").textContent = "0";
+            document.getElementById("wordFrequency").innerHTML = '';
+        }
+
+        // Event listener for textarea input
+        document.getElementById("textInput").addEventListener("input", function() {
+            updateWordCount();
+            updateCharCount();
+            updateSentenceCount();
+            updateWordFrequency();
+        });
+
+        // Event listener for the submit button
+        document.getElementById("submitText").addEventListener("click", function() {
+            const text = document.getElementById("textInput").value.trim();
+
+            if (text) {
+                updateWordCount();
+                updateCharCount();
+                updateSentenceCount();
+                updateWordFrequency();
+            } else {
+                alert("Please enter some text!");
+            }
+        });
+
+        // Event listener for the reset button
+        document.getElementById("resetText").addEventListener("click", resetCounters);
+    </script>
+</body>
+</html>

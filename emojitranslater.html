@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Replacer</title>
+</head>
+<body>
+
+    <h2>Text to Emoji Replacer</h2>
+    
+    <label for="inputText">Enter Text:</label>
+    <textarea id="inputText" rows="4" cols="50" placeholder="Type something here..." oninput="replaceWithEmoji()"></textarea>
+    
+    <h3>Converted Emoji Text:</h3>
+    <p id="emojiText">Your emoji text will appear here</p>
+
+    <script>
+        // A simple dictionary of words and their corresponding emojis
+        const emojiDictionary = {
+            "happy": "😊",
+            "love": "❤️",
+            "heart": "❤️",
+            "cat": "🐱",
+            "dog": "🐶",
+            "sun": "☀️",
+            "rain": "🌧️",
+            "fire": "🔥",
+            "peace": "✌️",
+            "star": "⭐",
+            "cool": "😎",
+            "laugh": "😂",
+            "sad": "😢",
+            "angry": "😡",
+            "coffee": "☕",
+            "money": "💰"
+        };
+
+        function replaceWithEmoji() {
+            const inputText = document.getElementById('inputText').value;
+            let emojiText = inputText;
+
+            // Loop through the dictionary and replace the words with corresponding emojis
+            for (const word in emojiDictionary) {
+                const emoji = emojiDictionary[word];
+                const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                emojiText = emojiText.replace(regex, emoji);
+            }
+
+            // Display the emoji text in the paragraph
+            document.getElementById('emojiText').innerText = emojiText;
+        }
+    </script>
+
+</body>
+</html>

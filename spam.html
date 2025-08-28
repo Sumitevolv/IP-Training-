@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Email Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .spam {
+            color: red;
+        }
+        .not-spam {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spam Email Detection</h1>
+    <p>Enter the email content below to check if it's spam or not:</p>
+    
+    <textarea id="emailInput" placeholder="Paste email content here..."></textarea><br>
+    <button onclick="checkSpam()">Check Spam</button>
+
+    <div id="result" class="result"></div>
+
+    <script>
+        function checkSpam() {
+            // Get the email content from the textarea
+            const emailContent = document.getElementById("emailInput").value.trim();
+
+            // Define a simple list of spam-related keywords (you can expand this list)
+            const spamKeywords = [
+                "free", "prize", "winner", "click here", "limited time offer", "urgent", "money", "lottery", "discount"
+            ];
+
+            // Convert the email content to lowercase for case-insensitive matching
+            const emailContentLower = emailContent.toLowerCase();
+
+            // Check if any of the spam keywords exist in the email content
+            let isSpam = false;
+            for (let keyword of spamKeywords) {
+                if (emailContentLower.includes(keyword)) {
+                    isSpam = true;
+                    break;
+                }
+            }
+
+            // Display the result
+            const resultDiv = document.getElementById("result");
+            if (isSpam) {
+                resultDiv.textContent = "This email is SPAM!";
+                resultDiv.classList.add("spam");
+                resultDiv.classList.remove("not-spam");
+            } else {
+                resultDiv.textContent = "This email is NOT SPAM.";
+                resultDiv.classList.add("not-spam");
+                resultDiv.classList.remove("spam");
+            }
+        }
+    </script>
+</body>
+</html>

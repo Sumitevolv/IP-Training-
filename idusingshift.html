@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Operations</title>
+</head>
+<body>
+    <h2>Array Operations</h2>
+    <div>Array: <span id="arrayDisplay">[]</span></div>
+    <button onclick="pushElement()">Push</button>
+    <button onclick="popElement()">Pop</button>
+    <button onclick="shiftElement()">Shift</button>
+    <button onclick="unshiftElement()">Unshift</button>
+
+    <script>
+        let array = [];
+        function update() { document.getElementById('arrayDisplay').innerText = JSON.stringify(array); }
+        function pushElement() { array.push(prompt("Enter value")); update(); }
+        function popElement() { array.pop(); update(); }
+        function shiftElement() { array.shift(); update(); }
+        function unshiftElement() { array.unshift(prompt("Enter value")); update(); }
+    </script>
+</body>
+</html>

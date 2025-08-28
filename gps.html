@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Navigation</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        .info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>GPS Navigation</h1>
+    
+    <!-- Display Current Location Button -->
+    <button onclick="getCurrentLocation()">Get Current Location</button>
+    
+    <!-- Display Map -->
+    <div id="map"></div>
+    
+    <!-- Display Distance and Info -->
+    <div class="info">
+        <h3>Target Location Coordinates</h3>
+        <p>Latitude: <input type="text" id="target-lat" placeholder="Enter latitude" value="34.0522"></p>
+        <p>Longitude: <input type="text" id="target-lon" placeholder="Enter longitude" value="-118.2437"></p>
+        <button onclick="calculateDistance()">Calculate Distance</button>
+        <p id="distance-info"></p>
+    </div>
+
+    <!-- Include Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+
+    <script>
+        let map;
+        let currentLocationMarker;
+        let targetLocationMarker;
+
+        // Function to initialize Google Maps
+        function initMap() {
+            // Map settings
+            const initialPosition = { lat: 37.7749, lng: -122.4194 }; // Default position (San Francisco)
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: initialPosition,
+            });
+
+            currentLocationMarker = new google.maps.Marker({
+                map: map,
+                label: "You",
+            });
+
+            targetLocationMarker = new google.maps.Marker({
+                map: map,
+                label: "Target",
+            });
+        }
+
+        // Function to get the user's current location
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const userLat = position.coords.latitude;
+                        const userLon = position.coords.longitude;
+                        const userLocation = { lat: userLat, lng: userLon };
+                        
+                        // Update the map and marker for the current location
+                        map.setCenter(userLocation);
+                        currentLocationMarker.setPosition(userLocation);
+                        alert("Current Location: Latitude " + userLat + " Longitude " + userLon);
+                    },
+                    function () {
+                        alert("Error: Geolocation not supported or permission denied.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to calculate the distance between current location and target location
+        function calculateDistance() {
+            const userLat = currentLocationMarker.getPosition().lat();
+            const userLon = currentLocationMarker.getPosition().lng();
+            const targetLat = parseFloat(document.getElementById("target-lat").value);
+            const targetLon = parseFloat(document.getElementById("target-lon").value);
+
+            if (isNaN(targetLat) || isNaN(targetLon)) {
+                alert("Please enter valid coordinates.");
+                return;
+            }
+
+            const userLocation = new google.maps.LatLng(userLat, userLon);
+            const targetLocation = new google.maps.LatLng(targetLat, targetLon);
+
+            // Calculate the distance using the Haversine formula
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(userLocation, targetLocation) / 1000; // Convert to kilometers
+
+            // Update the target marker and show the distance
+            targetLocationMarker.setPosition(targetLocation);
+            document.getElementById("distance-info").innerHTML = `Distance to target location: ${distance.toFixed(2)} km`;
+        }
+    </script>
+</body>
+</html>

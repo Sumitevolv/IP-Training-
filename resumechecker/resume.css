@@ -1,0 +1,78 @@
+/* Custom spinner style */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Styling for the file upload area */
+#drop-area {
+    transition: border-color 0.3s ease;
+}
+
+#drop-area:hover {
+    border-color: #3498db; /* Blue border on hover */
+}
+
+/* Results Section Styling */
+#results-container {
+    display: block;
+}
+
+#match-bar {
+    transition: width 0.3s ease-in-out;
+}
+
+#recommendations {
+    background-color: #f9fafb;
+}
+
+/* Additional customization for the results area */
+#results-container h2 {
+    color: #2d3748;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#results-container .bg-white {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#results-container .text-sm {
+    font-size: 0.875rem;
+}
+
+#results-container .text-lg {
+    font-size: 1.125rem;
+}
+
+#results-container .font-bold {
+    font-weight: bold;
+}
+
+#results-container .text-blue-600 {
+    color: #3182ce;
+}
+
+/* Additional responsive design */
+@media (max-width: 768px) {
+    .md\:w-1\/2 {
+        width: 100%;
+    }
+
+    .md\:flex {
+        flex-direction: column;
+    }
+}

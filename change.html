@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Content Example</title>
+    <script>
+        // Function to change the content of an element
+        function changeContent() {
+            // Change the text of the <h1> element
+            document.getElementById('heading').innerHTML = "This is the new heading!";
+            
+            // Change the content of the <p> element
+            document.getElementById('paragraph').innerHTML = "The content has been changed dynamically using JavaScript!";
+            
+            // You can even change the style if you want
+            document.getElementById('heading').style.color = "blue";
+            document.getElementById('paragraph').style.fontSize = "18px";
+        }
+    </script>
+</head>
+<body>
+    <h1 id="heading">Old Heading</h1>
+    <p id="paragraph">This is the old content.</p>
+
+    <!-- Button to trigger the content change -->
+    <button onclick="changeContent()">Click to Change Content</button>
+</body>
+</html>

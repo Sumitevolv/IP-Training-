@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, textarea { width: 100%; margin: 5px 0; padding: 10px; }
+    button { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Feedback Form</h2>
+  <form onsubmit="submitForm(event)">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <textarea id="feedback" placeholder="Your Feedback" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="thankYouMessage" style="display:none;">Thank you for your feedback!</div>
+  <script>
+    function submitForm(event) {
+      event.preventDefault();
+      document.querySelector("form").style.display = 'none';
+      document.getElementById("thankYouMessage").style.display = 'block';
+    }
+  </script>
+</body>
+</html>

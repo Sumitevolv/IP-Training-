@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Name and Color Picker</title>
+    <style>
+        /* Basic CSS Styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #outputMessage {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Name and Color Picker</h1>
+        
+        <!-- Input for Name -->
+        <label for="nameInput">Enter your name:</label>
+        <input type="text" id="nameInput" placeholder="Type your name">
+
+        <button id="updateButton">Update Name</button>
+
+        <!-- Color Picker for Text Color -->
+        <label for="textColorPicker">Choose text color:</label>
+        <input type="color" id="textColorPicker" value="#000000">
+        
+        <p id="outputMessage"></p>
+    </div>
+
+    <script>
+        // Correct name definition (you can change it to whatever is correct)
+        const correctName = "SuMit Tiwari";
+
+        // JavaScript to handle name update and color picker functionality
+        document.getElementById("updateButton").addEventListener("click", function() {
+            const nameInput = document.getElementById("nameInput").value;
+            const outputMessage = document.getElementById("outputMessage");
+
+            // Check if the name is correct or incorrect
+            if (nameInput.trim() === "") {
+                outputMessage.textContent = "Please enter a valid name!";
+                outputMessage.style.color = "red";
+            } else if (nameInput.trim() !== correctName) {
+                outputMessage.textContent = `Incorrect name. Correcting to: ${correctName}`;
+                outputMessage.style.color = "orange"; // Indicate the name was corrected
+            } else {
+                outputMessage.textContent = `Hello, ${correctName}!`;
+                outputMessage.style.color = document.getElementById("textColorPicker").value; // Change text color
+            }
+        });
+
+        // Event listener for the color picker (to change the text color dynamically)
+        document.getElementById("textColorPicker").addEventListener("input", function() {
+            const outputMessage = document.getElementById("outputMessage");
+            outputMessage.style.color = this.value; // Update the text color immediately as it's selected
+        });
+    </script>
+</body>
+</html>

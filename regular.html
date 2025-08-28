@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple User Inputs with Regex</title>
+    <script>
+        function findSubstring() {
+            // Get the user inputs from the text fields
+            const userText1 = document.getElementById("userInput1").value;
+            const userText2 = document.getElementById("userInput2").value;
+            const userText3 = document.getElementById("userInput3").value;
+
+            // Regular expression to find the word 'fox'
+            const singleRegex = /fox/;
+
+            // Find the first occurrence of 'fox' in userText1
+            const singleResult = userText1.match(singleRegex);
+            if (singleResult) {
+                alert("Found substring 'fox' in Text 1: " + singleResult[0]);
+            } else {
+                alert("Substring 'fox' not found in Text 1.");
+            }
+
+            // Now, let's find all occurrences of 'fox' in userText2
+            const allRegex = /fox/g;  // 'g' flag to find all instances of 'fox'
+            const allResults = userText2.match(allRegex);
+            if (allResults) {
+                alert("Found all 'fox' occurrences in Text 2: " + allResults.join(', '));
+            } else {
+                alert("No 'fox' found in Text 2.");
+            }
+
+            // Using capturing groups to extract a phone number from userText3 (e.g., "123-456-7890")
+            const phoneRegex = /(\d{3})-(\d{3})-(\d{4})/;  // Capturing groups for phone number format
+
+            const phoneResult = userText3.match(phoneRegex);
+            if (phoneResult) {
+                alert("Found phone number in Text 3: " + phoneResult[0] + 
+                      "\nArea Code: " + phoneResult[1] + 
+                      "\nPrefix: " + phoneResult[2] + 
+                      "\nLine Number: " + phoneResult[3]);
+            } else {
+                alert("No phone number found in Text 3.");
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Multiple Inputs with Regex Matching</h2>
+
+    <label for="userInput1">Enter text (for finding single 'fox'):</label>
+    <input type="text" id="userInput1" placeholder="Enter your text here" required><br><br>
+
+    <label for="userInput2">Enter text (for finding all occurrences of 'fox'):</label>
+    <input type="text" id="userInput2" placeholder="Enter your text here" required><br><br>
+
+    <label for="userInput3">Enter text (for extracting phone number like 123-456-7890):</label>
+    <input type="text" id="userInput3" placeholder="Enter your text here" required><br><br>
+
+    <button onclick="findSubstring()">Run Regex Tests</button>
+
+</body>
+</html>

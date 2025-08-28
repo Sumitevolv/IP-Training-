@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prototypal Inheritance with Closures</title>
+</head>
+<body>
+  <h1>Check the console for output!</h1>
+  
+  <script>
+    // Constructor for creating a Person object
+    function Person(name, age) {
+      // Private variable
+      let _name = name;
+      let _age = age;
+
+      // Private method using closure
+      function getInfo() {
+        return `Name: ${_name}, Age: ${_age}`;
+      }
+
+      // Public method to access private data
+      this.getPersonInfo = function() {
+        return getInfo(); // Accessing private method via closure
+      };
+    }
+
+    // Add method to the prototype
+    Person.prototype.greet = function() {
+      console.log(`Hello, my name is ${this.getPersonInfo()}`);
+    };
+
+    // Create an instance of Person
+    const person1 = new Person('John Doe', 30);
+
+    // Using private method via public method
+    console.log(person1.getPersonInfo());  // Logs: Name: John Doe, Age: 30
+
+    // Using prototype method
+    person1.greet(); // Logs: Hello, my name is Name: John Doe, Age: 30
+
+    // You can also create another object and it will inherit methods from the prototype
+    const person2 = new Person('Jane Doe', 25);
+    person2.greet(); // Logs: Hello, my name is Name: Jane Doe, Age: 25
+  </script>
+</body>
+</html>

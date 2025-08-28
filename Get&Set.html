@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account with Get and Set</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .account {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .transaction {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e6f7ff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bank Account Management</h1>
+
+    <div class="account">
+        <h2>Account Details</h2>
+        <p><strong>Account Holder:</strong> <span id="accountHolder"></span></p>
+        <p><strong>Balance:</strong> $<span id="balance"></span></p>
+        <h3>Transactions</h3>
+        <div id="transactions"></div>
+        <button onclick="deposit(200)">Deposit $200</button>
+        <button onclick="withdraw(100)">Withdraw $100</button>
+    </div>
+
+    <script>
+        class BankAccount {
+            // Private properties
+            #accountHolder;
+            #balance;
+            #transactions;
+
+            constructor(accountHolder, initialBalance) {
+                this.#accountHolder = accountHolder;
+                this.#balance = initialBalance;
+                this.#transactions = [];
+            }
+
+            // Getter for account holder
+            get accountHolder() {
+                return this.#accountHolder;
+            }
+
+            // Getter for balance
+            get balance() {
+                return this.#balance;
+            }
+
+            // Getter for transactions
+            get transactions() {
+                return this.#transactions;
+            }
+
+            // Setter for balance (with validation)
+            set balance(amount) {
+                if (typeof amount !== 'number' || amount < 0) {
+                    console.error("Invalid balance amount.");
+                    return;
+                }
+                this.#balance = amount;
+            }
+
+            // Method to deposit money
+            deposit(amount) {
+                if (typeof amount !== 'number' || amount <= 0) {
+                    console.error("Invalid deposit amount.");
+                    return;
+                }
+                this.#balance += amount;
+                this.#transactions.push(`Deposit: +$${amount}`);
+                this.updateUI();
+            }
+
+            // Method to withdraw money
+            withdraw(amount) {
+                if (typeof amount !== 'number' || amount <= 0) {
+                    console.error("Invalid withdrawal amount.");
+                    return;
+                }
+                if (amount > this.#balance) {
+                    console.error("Insufficient funds.");
+                    return;
+                }
+                this.#balance -= amount;
+                this.#transactions.push(`Withdrawal: -$${amount}`);
+                this.updateUI();
+            }
+
+            // Update the UI with current account details
+            updateUI() {
+                document.getElementById('accountHolder').textContent = this.#accountHolder;
+                document.getElementById('balance').textContent = this.#balance.toFixed(2);
+                const transactionsDiv = document.getElementById('transactions');
+                transactionsDiv.innerHTML = this.#transactions
+                    .map(transaction => `<div class="transaction">${transaction}</div>`)
+                    .join('');
+            }
+        }
+
+        // Create a new bank account
+        const myAccount = new BankAccount("John Doe", 1000);
+        myAccount.updateUI(); // Initial UI update
+
+        // Deposit and withdraw functions for buttons
+        function deposit(amount) {
+            myAccount.deposit(amount);
+        }
+
+        function withdraw(amount) {
+            myAccount.withdraw(amount);
+        }
+    </script>
+</body>
+</html>

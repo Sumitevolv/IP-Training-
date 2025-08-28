@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account Example</title>
+    <script>
+        // Defining the BankAccount constructor function
+        function BankAccount(accountHolder, balance) {
+            this.accountHolder = accountHolder;
+            this.balance = balance;
+        }
+
+        // Adding a method to the prototype to check balance
+        BankAccount.prototype.checkBalance = function() {
+            return `The current balance for ${this.accountHolder} is $${this.balance}.`;
+        };
+
+        // Creating a new bank account instance
+        const userAccount = new BankAccount("Sumit Tiwari", 1500);
+
+        // Using console.log() to display information
+        console.log(userAccount); // Logs the object itself
+        console.log(userAccount.checkBalance()); // Logs the balance using the prototype method
+        console.log(`Account Holder: ${userAccount.accountHolder}, Balance: $${userAccount.balance}`); // Logs individual properties
+
+        // Checking if the checkBalance method exists in the prototype
+        console.log(userAccount.hasOwnProperty('checkBalance')); // Should log 'false', since it's in the prototype
+        console.log(BankAccount.prototype.hasOwnProperty('checkBalance')); // Should log 'true', since it's in the prototype
+    </script>
+</head>
+<body>
+    <h1>Check the Developer Console</h1>
+    <p>Open your browser's developer tools to see the output.</p>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+</body>
+</html>
